@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yangb66.myapplication.MainActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="中山大学学生信息系统"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:textSize="20sp"
+        android:textColor="@color/colorBlack"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.519" />
+
+    <!--标题字体大小 20sp，与顶部距离 20dp，居中-->
+
+    <ImageView
+        android:id="@+id/Image"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        app:srcCompat="@mipmap/sysu"
+        android:onClick="onClick"
+        app:layout_constraintTop_toBottomOf="@+id/Title"
+        android:layout_marginTop="20dp"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <!--图片与标题的间距为 20dp，居中-->
+<!--
+    <TextView
+        android:id="@+id/stringxh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="学号 :"
+        android:textSize="18sp"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintTop_toTopOf="@+id/edit1"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:id="@+id/stringmm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="密码 :"
+        android:textSize="18sp"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintTop_toTopOf="@+id/edit2"
+        android:layout_marginTop="11dp"
+        android:layout_marginStart="20dp" />
+-->
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/Num"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/Image"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <EditText
+            android:id = "@+id/EditNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入学号"
+            android:inputType="number"
+            android:maxLength="8"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/PW"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/Num"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <EditText
+            android:id = "@+id/EditPW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入密码"
+            android:inputType="textPassword"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <!--
+    <EditText
+        android:id="@+id/edit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="请输入学号"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/edit2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="请输入密码"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/edit1"
+        tools:layout_editor_absoluteX="0dp" />
+
+-->
+
+    <!--    输入框整体距屏幕右边间距 20dp，上下两栏间距 20dp，内
+    容（包括提示内容）如图所示，内容字体大小 18sp;
+    学号对应的 EditText 只能输入数字， 密码对应的 EditText 输入方式为密码；-->
+
+
+
+    <RadioGroup
+        android:id="@+id/RG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:checkedButton="@+id/RB1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PW"
+        android:onClick="OnCheckedChangeListener"
+        android:layout_marginTop="20dp">
+
+        <RadioButton
+            android:id="@+id/RB1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学生"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/RB2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="教职工"
+            android:textSize="18sp"
+            android:layout_marginLeft="10dp" />
+
+    </RadioGroup>
+    <!--两个单选按钮整体居中，字体大小 18sp，间距 10dp，默认选中的按钮为第一个-->
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id = "@+id/Guideline"
+        app:layout_constraintGuide_percent = "0.5"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="192dp" />
+
+    <Button
+        android:id="@+id/Login"
+        android:onClick="onClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登录"
+        android:textSize="18sp"
+        app:layout_constraintRight_toLeftOf="@+id/Guideline"
+        app:layout_constraintTop_toBottomOf="@+id/RG"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="5dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/shape_button"
+        android:layout_marginEnd="5dp" />
+
+    <Button
+        android:id="@+id/Register"
+        android:onClick="onClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="注册"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/Login"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/shape_button"
+        android:layout_marginStart="5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/Guideline" />
+
+
+
+
+    <!--两个按钮整体居中，与上方控件间距 20dp，按钮间的间距 10dp，文字大小 18sp。按钮背景框左
+    右边框与文字间距 10dp，上下边框与文字间距 5dp，圆角半径 10dp，背景色为#3F51B5-->
+
+</android.support.constraint.ConstraintLayout>
+
+
+
