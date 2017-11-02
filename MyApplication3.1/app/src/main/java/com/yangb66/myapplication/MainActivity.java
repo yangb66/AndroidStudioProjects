@@ -1,9 +1,7 @@
 package com.yangb66.myapplication;
 
-import android.support.annotation.IdRes;
-import android.support.design.widget.BaseTransientBottomBar;
+
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.design.widget.TextInputLayout;
@@ -15,11 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.text.TextUtils;
-
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -119,9 +114,15 @@ public class MainActivity extends AppCompatActivity {
                     mNum.setErrorEnabled(true);
                     mNum.setError("学号不能为空");
                 }
+                else {
+                    mNum.setErrorEnabled(false);
+                }
                 if(password.isEmpty()) {
                     mPW.setErrorEnabled(true);
                     mPW.setError("密码不能为空");
+                }
+                else {
+                    mPW.setErrorEnabled(false);
                 }
                 if(TextUtils.equals(number, "123456") && TextUtils.equals(password, "6666")) {
                     Snackbar.make(mLogin, "登录成功", Snackbar.LENGTH_SHORT)
