@@ -1,5 +1,7 @@
 package com.yangb66.broadcaststudy;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        Intent from = getIntent();
+        Bundle bundle = from.getExtras();
         mainButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,5 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 sendBroadcast(new Intent("mainButton2.onClick.Broadcast"));
             }
         });
+
+
     }
 }
