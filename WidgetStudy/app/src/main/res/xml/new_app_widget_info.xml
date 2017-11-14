@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/new_app_widget"
+    android:initialLayout="@layout/new_app_widget"
+    android:minHeight="160dp"
+    android:minWidth="160dp"
+    android:previewImage="@drawable/mainpage"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen"
+    android:configure="com.yangb66.widgetstudy.MainActivity">
+</appwidget-provider>
+
+<!--
+initialKeyguardLayout指向定义小部件显示在键盘锁界面的布局资源
+initialLayout指向显示在主屏幕的布局资源
+previewImage指定在配置后，用户在选择小部件时看到的内容，没有的话，会默认为应用程序启动图标
+updatePeriodMillis定义自动更新的时间间隔，注意每三十分钟最多一次
+configure属性定义当用户添加小部件时要启动的activity，以便配置属性
+widgetCategory确定是否可以显示在home_screen或者Keyguard或者两者之上
+minWidth等表示默认最小宽度等
+minResizeWidth指定绝对最小大小
+-->

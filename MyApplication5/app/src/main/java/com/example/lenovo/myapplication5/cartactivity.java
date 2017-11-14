@@ -9,11 +9,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -23,14 +28,18 @@ import java.util.Map;
 
 public class cartactivity extends AppCompatActivity {
 
-    private MyApp myApp;
+    SimpleAdapter simpleAdapter;
+    MyApp myApp;
+    final List<Map<String, Object>> data = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cartactivity);
+        Log.i("cartactivity","Oncreate");
+        EventBus.getDefault().register(this);
         myApp = (MyApp) getApplication();
+//        Toast.makeText(cartactivity.this,"666",Toast.LENGTH_SHORT).show();
 
-        final List<Map<String, Object>> data = new ArrayList<>();
         Map<String, Object> temp2 = new LinkedHashMap<>();
         temp2.put("firstletter", "*");
         temp2.put("name", "购物车");
@@ -43,7 +52,7 @@ public class cartactivity extends AppCompatActivity {
             temp.put("price", myApp.cartgoods.get(i).price);
             data.add(temp);
         }
-        final SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.cartlist, new String[]{"firstletter", "name","price"}, new int[]{R.id.firstletter, R.id.name, R.id.price});
+        simpleAdapter = new SimpleAdapter(this, data, R.layout.cartlist, new String[]{"firstletter", "name","price"}, new int[]{R.id.firstletter, R.id.name, R.id.price});
         ListView listview = (ListView) findViewById(R.id.recycler_view);
         listview.setAdapter(simpleAdapter);
 
@@ -54,7 +63,9 @@ public class cartactivity extends AppCompatActivity {
                     i = i-1;
                     Intent intent = new Intent(cartactivity.this, goodsactivity.class);
                     Goods temp = myApp.cartgoods.get(i);
-                    intent.putExtra("Goods", temp);
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putSerializable("goods", temp);
+                    intent.putExtras(bundle2);
                     startActivity(intent);
                 }
             }
@@ -98,5 +109,27 @@ public class cartactivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("2");
+//        Toast.makeText(myApp,"666",Toast.LENGTH_SHORT).show();
+
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(Goods goods){
+//        Toast.makeText(myApp,"666",Toast.LENGTH_SHORT).show();
+        assert goods != null;
+        myApp.cartgoods.add(goods);
+        Map<String, Object> temp = new LinkedHashMap<>();
+        temp.put("firstletter", goods.name.substring(0, 1));
+        temp.put("name", goods.name);
+        temp.put("price", goods.price);
+        data.add(temp);
+        simpleAdapter.notifyDataSetChanged();
     }
 }

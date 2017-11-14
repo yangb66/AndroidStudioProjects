@@ -34,7 +34,7 @@ public class MyReceiver extends BroadcastReceiver {
             mIntent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, mIntent, PendingIntent.FLAG_UPDATE_CURRENT); //pending不会立刻执行，flag用于删除当前
             notificationBuilder.setContentIntent(pendingIntent);
-            //绑定notice
+            //绑定notification
             Notification notification = notificationBuilder.build();
             notificationManager.notify(0, notification);
         }

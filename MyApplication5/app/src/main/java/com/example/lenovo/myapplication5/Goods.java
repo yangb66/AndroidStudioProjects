@@ -8,17 +8,15 @@ import java.util.List;
  */
 
 public class Goods implements Serializable {
-    public int number;
-    public String name;
-    public String price;
-    public String style;
-    public String information;
-    public String path;
-    public boolean iscart;
-    public boolean iscollect;
-    public Goods(int Number, String Name, String Price,
-                 String Style, String Information, String Path,
-                 boolean Iscart,boolean Iscollect)
+    public int number;  //商品号码
+    public String name; //商品名字
+    public String price;//商品价格
+    public String style;//信息类型
+    public String information;//详细信息
+    public int path; //图片路径
+    public boolean iscart; //是否进入购物车
+    public boolean iscollect; //是否被收藏
+    public Goods(int Number, String Name, String Price, String Style, String Information, int Path, boolean Iscart,boolean Iscollect)
     {
         number = Number;
         name = Name;

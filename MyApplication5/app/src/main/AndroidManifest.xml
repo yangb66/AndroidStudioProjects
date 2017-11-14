@@ -3,22 +3,47 @@
     package="com.example.lenovo.myapplication5">
 
     <application
-        android:name="MyApp"
+        android:name=".MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".goodsactivity" />
-        <activity android:name=".cartactivity" />
-        <activity android:name=".MyApp"></activity>
+        <activity
+            android:name=".goodsactivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".cartactivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".MyApp"
+            android:launchMode="singleInstance" />
+
+        <!--<receiver android:name=".Receiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.example.ex4.MyStaticFliter" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+        <receiver android:name=".Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.ex4.MyStaticFliter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
     </application>
+
 </manifest>

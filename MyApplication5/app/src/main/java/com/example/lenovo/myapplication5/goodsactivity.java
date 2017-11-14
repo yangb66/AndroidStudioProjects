@@ -1,11 +1,14 @@
 package com.example.lenovo.myapplication5;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,6 +16,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -23,27 +28,25 @@ import static android.R.attr.id;
 
 public class goodsactivity extends AppCompatActivity {
     private MyApp myApp;
+    private static final String STATICACTION = "com.example.ex4.MyStaticFliter";
+    private static final String DYNAMICACTION = "com.example.ex4.MyDynamicFliter";
+    Receiver dynamicReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goodsactivity);
+        Log.i("goodsactivity","Oncreate");
         myApp = (MyApp) getApplication();
+        registerRec();
 
-        final Goods get_goods = (Goods) getIntent().getSerializableExtra("Goods");
+        Bundle bundle = new Bundle();
+        bundle = this.getIntent().getExtras();
+        final Goods get_goods = (Goods)bundle.getSerializable("goods");
         //设置图片
         ImageView image = (ImageView)findViewById(R.id.imageView);
-        int i = get_goods.number;
-        if(i == 1) image.setImageResource(R.mipmap.enchatedforest);
-        if(i == 2) image.setImageResource(R.mipmap.arla);
-        if(i == 3) image.setImageResource(R.mipmap.devondale);
-        if(i == 4) image.setImageResource(R.mipmap.kindle);
-        if(i == 5) image.setImageResource(R.mipmap.waitrose);
-        if(i == 6) image.setImageResource(R.mipmap.mcvitie);
-        if(i == 7) image.setImageResource(R.mipmap.ferrero);
-        if(i == 8) image.setImageResource(R.mipmap.maltesers);
-        if(i == 9) image.setImageResource(R.mipmap.lindt);
-        if(i == 10) image.setImageResource(R.mipmap.borggreve);
+        assert get_goods != null;
+        image.setImageResource(get_goods.path);
         //设置名称
         TextView text = (TextView)findViewById(R.id.textView);
         text.setText(get_goods.name);
@@ -80,8 +83,10 @@ public class goodsactivity extends AppCompatActivity {
         Button home = (Button)findViewById(R.id.home);
         home.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(goodsactivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent2 = new Intent();
+//                intent2.setClass(goodsactivity.this, MainActivity.class);
+//                startActivity(intent2);
+                    finish();
             }
         });
         //价格等信息
@@ -113,10 +118,27 @@ public class goodsactivity extends AppCompatActivity {
                 String temp = get_goods.name;
                 Toast.makeText(goodsactivity.this,temp + "被添加到购物车",Toast.LENGTH_SHORT).show();
                 get_goods.iscart = true;
-                myApp.cartgoods.add(get_goods);
+//                myApp.cartgoods.add(get_goods);
+                EventBus.getDefault().post(get_goods);
+                Intent intentBroadcast = new Intent(DYNAMICACTION);
+                Bundle bundle2 = new Bundle();
+                bundle2.putSerializable("goods", get_goods);
+                intentBroadcast.putExtras(bundle2);
+                sendBroadcast(intentBroadcast);
             }
         });
+    }
+    void registerRec()
+    {
+        dynamicReceiver = new Receiver();
+        IntentFilter dynamic_filter = new IntentFilter();
+        dynamic_filter.addAction(DYNAMICACTION);   //添加动态广播的Action
+        registerReceiver(dynamicReceiver, dynamic_filter);  //注册自定义动态广播信息
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(dynamicReceiver);
     }
 }

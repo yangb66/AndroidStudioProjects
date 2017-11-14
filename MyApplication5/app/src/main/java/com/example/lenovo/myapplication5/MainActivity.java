@@ -4,12 +4,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.ScaleAnimation;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,34 +21,47 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
+
+import static android.R.attr.data;
+import static com.example.lenovo.myapplication5.R.id.listview;
 
 
 public class MainActivity extends AppCompatActivity {
-
-//    MyApp myApp = (MyApp) getApplication();
+    private static final String STATICACTION = "com.example.ex4.MyStaticFliter";
+    private static final String DYNAMICACTION = "com.example.ex4.MyDynamicFliter";
+    MyApp myApp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final MyApp myApp = (MyApp) getApplication();
-//        myApp = (MyApp) getApplication();
-////        final List<Goods> goods = new ArrayList<Goods>(){{
-////            add(new Goods(1, "Enchated Forest",5.0,"作者","Johanna Basford","enchatedforest",false,false));
-////            add(new Goods(2, "Arla Milk",59.00,"产地","德国","arla",false,false));
-////            add(new Goods(3, "Devondale Milk",79.00,"产地","澳大利亚","devondale",false,false));
-////            add(new Goods(4, "Kindle Oasis",2399.00,"版本","8GB","kindle",false,false));
-////            add(new Goods(5, "waitrose 早餐麦片",179.00,"重量","2Kg","waitrose",false,false));
-////            add(new Goods(6, "Mcvitie's 饼干",14.90,"产地","英国","mcvitie",false,false));
-////            add(new Goods(7, "Ferrero Rocher",132.59,"重量","300g","ferrero",false,false));
-////            add(new Goods(8, "Maltesers",141.43,"重量","118g","maltesers",false,false));
-////            add(new Goods(9, "Lindt",139.43,"重量","249g","lindt",false,false));
-////            add(new Goods(10, "Borggreve",28.90,"重量","640g","borggreve",false,false));
-////        }};
-//
+        Log.i("MainActivity","Oncreate");
+        myApp = (MyApp) getApplication();
+
+//        EventBus.getDefault().register(this);
+        //静态广播
+        Random random = new Random();
+        if(myApp.shoppinggoods.size() != 0){
+            int random2 = random.nextInt(myApp.shoppinggoods.size());
+            Goods tempgoods = myApp.shoppinggoods.get(random2);
+            Intent intentBroadcast = new Intent(STATICACTION);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("goods", tempgoods);
+            intentBroadcast.putExtras(bundle);
+            sendBroadcast(intentBroadcast);
+        }
+
         String[] Name = new String[myApp.shoppinggoods.size()];
         for(int i=0; i<myApp.shoppinggoods.size(); i++){
             String x = myApp.shoppinggoods.get(i).name;
@@ -58,32 +74,37 @@ public class MainActivity extends AppCompatActivity {
             temp.put("name", Name[i]);
             data.add(temp);
         }
-        final SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.shoppinglist, new String[]{"firstletter", "name"}, new int[]{R.id.firstletter, R.id.name});
-        ListView listview = (ListView) findViewById(R.id.recycler_view);
-        listview.setAdapter(simpleAdapter);
+//        final SimpleAdapter simpleAdapter = new SimpleAdapter(this, data, R.layout.shoppinglist, new String[]{"firstletter", "name"}, new int[]{R.id.firstletter, R.id.name});
+//        ListView listview = (ListView) findViewById(R.id.recycler_view);
+//        listview.setAdapter(simpleAdapter);
 
+        final CommonAdapter commonAdapter = new CommonAdapter(myApp.shoppinggoods);
 
-
-////        RecyclerView mRecyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-////        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView listview = (RecyclerView)findViewById(R.id.recycler_view);
+        listview.setLayoutManager(new LinearLayoutManager(this));
 ////        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 ////        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));
-////        mRecyclerView.setAdapter((ArrayAdapter)simpleAdapter);
-//
+//        listview.setAdapter(commonAdapter);
+        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(commonAdapter);
+        animationAdapter.setDuration(1000);
+        listview.setAdapter(animationAdapter);
+        listview.setItemAnimator(new OvershootInLeftAnimator());
 
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        commonAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this, goodsactivity.class);
+            public void onClick(int i) {
                 Goods temp = myApp.shoppinggoods.get(i);
-                intent.putExtra("Goods", temp);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("goods", temp);
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, goodsactivity.class);
+                intent.putExtras(bundle);
+//                intent.putExtra("goods", temp);
                 startActivity(intent);
             }
-        });
-        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+            public void onLongClick(final int position) {
                 Goods temp = myApp.shoppinggoods.get(position);
                 final String name = temp.name;
                 final int num = temp.number;
@@ -93,12 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 message.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         myApp.shoppinggoods.remove(position);
-//                        myApp.goods2.get(num).iscart = false;
                         data.remove(position);
-                        simpleAdapter.notifyDataSetChanged();
-//                        View.postInvalidate();
-//                        Intent intent = new Intent(cartactivity.this, cartactivity.this);
-//                        startActivity(intent);
+                        commonAdapter.notifyDataSetChanged();
                         int Position = position+1;
                         Toast.makeText(MainActivity.this,"移除第"+Position+"个商品",Toast.LENGTH_SHORT).show();
                     }
@@ -108,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 message.create().show();
-                return true;
             }
         });
+
         final FloatingActionButton shoppingcart = (FloatingActionButton)findViewById(R.id.fab);
         shoppingcart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -120,4 +137,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
