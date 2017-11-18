@@ -1,32 +1,53 @@
 package com.yangb66.layoutstudy;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.SeekBar;
 import android.widget.ToggleButton;
+
+import com.tencent.connect.common.Constants;
+import com.tencent.connect.share.QQShare;
+import com.tencent.tauth.IRequestListener;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
+
+import org.apache.http.conn.ConnectTimeoutException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+
+import static android.provider.UserDictionary.Words.APP_ID;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton mImageButton;
     private MediaPlayer mediaPlayer;
     private ToggleButton musicChange;
+    private SeekBar voiceChange;
+    private int volume = 0;
+    String ttf1 ="sunsatsen.ttf";
+    int mp3 = R.raw.yinyu;
+
     private static final int PHOTO_GRAPH = 2;// 拍照
     private static final int PHOTO_ZOOM = 3; // 缩放
     private static final int PHOTO_RESULT = 4;// 结果
@@ -36,31 +57,64 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        //设置button字体
+        Button button=(Button)findViewById(R.id.setMusic);
+        button.setTypeface(Typeface.createFromAsset(this.getAssets(),ttf1));
+
         //启动音乐服务
-        mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.yinyu);
+        mediaPlayer = MediaPlayer.create(MainActivity.this, mp3);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
         musicChange = (ToggleButton)findViewById(R.id.musicChange);
-        musicChange.setText("开");
+        musicChange.setText("关");
         musicChange.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(musicChange.getText().equals("开")){
-                    musicChange.setText("关");
+                if(musicChange.getText().equals("关")){
+                    musicChange.setText("开");
                     mediaPlayer.setLooping(false);
                     mediaPlayer.stop();
                 }
-                else if(musicChange.getText().equals("关")){
-                    musicChange.setText("开");
-                    mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.yinyu);
+                else if(musicChange.getText().equals("开")){
+                    musicChange.setText("关");
+                    mediaPlayer = MediaPlayer.create(MainActivity.this, mp3);
                     mediaPlayer.setLooping(true);
                     mediaPlayer.start();
                 }
             }
         });
 
-            //点击图片修改图片
+        //设置音量
+        voiceChange=(SeekBar) findViewById(R.id.voiceChange);
+        //音量控制,初始化定义
+        final AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        //最大音量
+        int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        //当前音量
+        int currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        voiceChange.setMax(maxVolume);
+        voiceChange.setProgress(currentVolume);
+        voiceChange.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,voiceChange.getProgress(),0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        //点击图片修改图片
         mImageButton=(ImageButton)findViewById(R.id.imageButton);
         mImageButton.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
@@ -139,11 +193,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
         mediaPlayer.setLooping(false);
         mediaPlayer.stop();
+    }
+
+    //回到窗口，播放
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if(musicChange.getText().equals("关")){
+            mediaPlayer = MediaPlayer.create(this, mp3);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+        }
     }
 
     /**
@@ -164,5 +230,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, PHOTO_RESULT);
     }
+
+
 
 }
