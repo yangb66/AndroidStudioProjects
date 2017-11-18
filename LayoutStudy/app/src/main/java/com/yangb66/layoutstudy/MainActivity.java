@@ -37,30 +37,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //启动音乐服务
-//        Intent intent = new Intent(MainActivity.this,MusicServer.class);
-//        startService(intent);
-//        musicServer = new MusicServer();
         mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.yinyu);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
         musicChange = (ToggleButton)findViewById(R.id.musicChange);
+        musicChange.setText("开");
         musicChange.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(musicChange.getText().equals("On")){
-                    musicChange.setText("Off");
+                if(musicChange.getText().equals("开")){
+                    musicChange.setText("关");
                     mediaPlayer.setLooping(false);
                     mediaPlayer.stop();
                 }
-                else if(musicChange.getText().equals("Off")){
-                    musicChange.setText("On");
+                else if(musicChange.getText().equals("关")){
+                    musicChange.setText("开");
+                    mediaPlayer = MediaPlayer.create(MainActivity.this, R.raw.yinyu);
                     mediaPlayer.setLooping(true);
                     mediaPlayer.start();
                 }
             }
         });
 
+            //点击图片修改图片
         mImageButton=(ImageButton)findViewById(R.id.imageButton);
         mImageButton.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Intent intent = new Intent(MainActivity.this,MusicServer.class);
-        stopService(intent);
+        mediaPlayer.setLooping(false);
+        mediaPlayer.stop();
     }
 
     /**

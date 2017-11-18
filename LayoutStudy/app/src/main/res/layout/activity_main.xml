@@ -13,7 +13,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <TextView
+    <com.yangb66.layoutstudy.MyTextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,8 +30,7 @@
         android:id="@+id/musicChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="On"
-
+        android:text="开"
         android:background="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="@id/text"
         app:layout_constraintTop_toTopOf="@id/text"
