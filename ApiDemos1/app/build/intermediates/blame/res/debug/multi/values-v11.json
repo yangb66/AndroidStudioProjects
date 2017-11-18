@@ -1,0 +1,102 @@
+[
+    {
+        "outputFile": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v11\\values-v11.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 45,
+                    "endOffset": 96
+                },
+                "from": {
+                    "file": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\values-v11\\bools.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 760,
+                        "endColumn": 45,
+                        "endOffset": 801
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 101,
+                    "endColumn": 61,
+                    "endOffset": 158
+                },
+                "from": {
+                    "file": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 801,
+                        "endColumn": 62,
+                        "endOffset": 859
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 163,
+                    "endColumn": 74,
+                    "endOffset": 233
+                },
+                "from": {
+                    "file": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 23,
+                        "startColumn": 4,
+                        "startOffset": 956,
+                        "endColumn": 75,
+                        "endOffset": 1027
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 238,
+                    "endColumn": 67,
+                    "endOffset": 301
+                },
+                "from": {
+                    "file": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1307,
+                        "endColumn": 68,
+                        "endOffset": 1371
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 306,
+                    "endColumn": 91,
+                    "endOffset": 393
+                },
+                "from": {
+                    "file": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\values-v11\\styles.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1122,
+                        "endColumn": 92,
+                        "endOffset": 1210
+                    }
+                }
+            }
+        ]
+    }
+]

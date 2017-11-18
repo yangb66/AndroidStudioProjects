@@ -1,0 +1,22 @@
+#Tue Nov 14 18:09:40 CST 2017
+renamed.6=classes6.dex
+renamed.5=classes5.dex
+renamed.4=classes4.dex
+renamed.3=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes7.dex
+renamed.0=classes2.dex
+base.6=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_eb49c1cb1b68095c812d50030137a39998e0abd0
+base.5=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_d2ba8c9af3f06a3858dda8ce823d4051fe5bc7e3
+base.4=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_a80e786264b8d4e056f493e1daaa573d271eadd8
+base.3=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_0c45ad67c938beae2274675052ceede7c9e17c76
+base.2=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_6630df562c01b01642f4a3ffd47b25ff7078891c
+base.1=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-annotations-26.0.0-alpha1_3ef61541391654f61b7e0d7cdc5ae28eff44bb68
+base.0=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_37be309e91b3fc1aaf67ac45678e640b3d59abe1
+file.6=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_eb49c1cb1b68095c812d50030137a39998e0abd0\\classes.dex
+file.5=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_d2ba8c9af3f06a3858dda8ce823d4051fe5bc7e3\\classes.dex
+file.4=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_a80e786264b8d4e056f493e1daaa573d271eadd8\\classes.dex
+file.3=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_0c45ad67c938beae2274675052ceede7c9e17c76\\classes.dex
+file.2=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_6630df562c01b01642f4a3ffd47b25ff7078891c\\classes.dex
+file.1=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\support-annotations-26.0.0-alpha1_3ef61541391654f61b7e0d7cdc5ae28eff44bb68\\classes.dex
+file.0=D\:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\classes_37be309e91b3fc1aaf67ac45678e640b3d59abe1\\classes.dex

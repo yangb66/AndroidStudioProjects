@@ -29,11 +29,11 @@
             android:name=".MyApp"
             android:launchMode="singleInstance" />
 
-        <!--<receiver android:name=".Receiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.example.ex4.MyStaticFliter" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver android:name=".Receiver"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.example.ex4.MyStaticFliter" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <receiver android:name=".Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -44,6 +44,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

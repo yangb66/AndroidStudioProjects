@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\frantic.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\frantic.jpg"
+    },
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\ball.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\ball.jpg"
+    },
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\scissors.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\scissors.jpg"
+    },
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\mug.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\mug.jpg"
+    },
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\block.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\block.jpg"
+    },
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\woot.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\woot.jpg"
+    },
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\jellies.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\jellies.jpg"
+    },
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\pencil.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\pencil.jpg"
+    },
+    {
+        "merged": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-nodpi-v4\\ducky.jpg",
+        "source": "D:\\programs\\Android\\AndroidStudioProjects\\ApiDemos1\\app\\src\\main\\res\\drawable-nodpi\\ducky.jpg"
+    }
+]

@@ -44,13 +44,13 @@ public class Widget extends AppWidgetProvider {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
         RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+        updateViews.setImageViewResource(R.id.widget_image,R.mipmap.shoplist);
         //更新后点击会进入主界面
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pi = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         updateViews.setOnClickPendingIntent(R.id.widget, pi);
         ComponentName me = new ComponentName(context, Widget.class);
         appWidgetManager.updateAppWidget(me, updateViews);
-
     }
     @Override
     public void onReceive(Context context, Intent intent) {
