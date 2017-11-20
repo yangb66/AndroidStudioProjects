@@ -17,12 +17,14 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".GlobalVariables"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -50,6 +52,16 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".herosinfo" />
         <activity android:name=".Appset"></activity>
+        <receiver android:name=".Receiver">
+            <intent-filter>
+                <action
+                    android:name="com.yangb66.layoutstudy.SetReceiver">
+                </action>
+            </intent-filter>
+        </receiver>
+
     </application>
+
+
 
 </manifest>

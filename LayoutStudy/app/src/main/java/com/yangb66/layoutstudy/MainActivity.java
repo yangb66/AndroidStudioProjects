@@ -1,9 +1,11 @@
 package com.yangb66.layoutstudy;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
@@ -13,12 +15,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.tencent.connect.common.Constants;
@@ -31,6 +35,7 @@ import java.io.File;
 
 
 public class MainActivity extends AppCompatActivity {
+    private ConstraintLayout layout;
     private ImageButton mImageButton;
     public MediaPlayer mediaPlayer;
     private ToggleButton musicChange;
@@ -47,10 +52,23 @@ public class MainActivity extends AppCompatActivity {
     private static final int PHOTO_RESULT = 4;// 结果
     private static final String IMAGE_UNSPECIFIED = "image/*";
     private int fontType=0, totalFontType=2;
+
+
+    //Receiver receiver;
+    msgReceiver receiver;
+    private static final String SETRECEIVEDYNAMIC="com.example.ex4.SetReceiveDynamic";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        layout = (ConstraintLayout)findViewById(R.id.activityID);
+
+        //注册广播
+        receiver=new msgReceiver();
+        IntentFilter intentFilter=new IntentFilter(SETRECEIVEDYNAMIC);
+        registerReceiver(receiver,intentFilter);
+
 
         mActivity=MainActivity.this;
         mUiListener=new IUiListener() {
@@ -313,6 +331,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
 
     @Override
     protected void onStop() {
@@ -353,6 +376,24 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, PHOTO_RESULT);
     }
 
+    public class msgReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int textTypeId=intent.getIntExtra("textTypeId",0);
+            String[] textTypeSrc={"sunsatsen.ttf","fanti.ttf"};
+            TextView text=(TextView)findViewById(R.id.text);
+            text.setTypeface(Typeface.createFromAsset(MainActivity.this.getAssets(),textTypeSrc[textTypeId]));
+
+            for(int i=0; i<layout.getChildCount(); i++) {
+                View view=layout.getChildAt(i);
+                String s=view.getAccessibilityClassName().toString();
+                if(s.equals("TextView")){
+                    TextView e=(TextView)view;
+                    e.setTypeface(Typeface.createFromAsset(MainActivity.this.getAssets(),textTypeSrc[textTypeId]));
+                }
+            }
+        }
+    }
 
 
 }
