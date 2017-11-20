@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 fontType=(fontType+1)%totalFontType;
                 button.setTypeface(Typeface.createFromAsset(MainActivity.this.getAssets(),ttf1[fontType]));
+                Intent intent=new Intent(MainActivity.this, Appset.class);
+                startActivity(intent);
             }
         });
         button.setOnLongClickListener(new View.OnLongClickListener() {
