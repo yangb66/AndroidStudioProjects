@@ -22,9 +22,16 @@ public class Appset extends AppCompatActivity {
     private Button textTypeChoose;
     private Button cancelButton;
     private TextView music, textType;
+
     private ConstraintLayout layout;
 
-    String textTypeStr="中山纪念字体", textTypeStr0;
+    int textTypeId=0, textTypeId0;
+    String[] textTypeStr={"中山纪念字体","繁体"};
+    String[] textTypeSrc={"sunsatsen.ttf","fanti.ttf"};
+
+    int backgroundId=0, backgroundId0;
+    String 
+
     String musicState="开", musicState0;
     int volumeValue, volumeValue0, maxVolume;
 
@@ -63,11 +70,11 @@ public class Appset extends AppCompatActivity {
         volumeSet.setProgress(volumeValue);
 
         //更新字体按钮文字
-        textTypeChoose.setText(textTypeStr);
+        textTypeChoose.setText(textTypeStr[textTypeId]);
 
         //更新文字信息控件字体
-        music.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeStr));
-        textType.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeStr));
+        music.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[textTypeId]));
+        textType.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[textTypeId]));
     }
 
     //数据更新
@@ -81,7 +88,7 @@ public class Appset extends AppCompatActivity {
         //最大音量
         maxVolume=mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         //字体
-        textTypeStr0=textTypeStr;
+        textTypeId0=textTypeId;
     }
 
 
@@ -135,7 +142,7 @@ public class Appset extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //恢复数据
-                textTypeStr=textTypeStr0;
+                textTypeId=textTypeId0;
                 musicState=musicState0;
                 volumeValue=volumeValue0;
                 widgetUpdate();
@@ -177,14 +184,14 @@ public class Appset extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) { }
                 });
-                final String[] items=new String[]{"繁体","中山纪念字体"};
-                final String[] str=new String[]{"fanti.ttf","sunsatsen.ttf"};
-                builder.setItems(items, new DialogInterface.OnClickListener() {
+                //final String[] items=new String[]{"繁体","中山纪念字体"};
+                builder.setItems(textTypeStr, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        textTypeStr=items[which];
-                        music.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), str[which]));
-                        textType.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), str[which]));
+                        textTypeId=which;
+                        textTypeChoose.setText(textTypeStr[which]);
+                        music.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[which]));
+                        textType.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[which]));
                     }
                 });
                 builder.create().show();
