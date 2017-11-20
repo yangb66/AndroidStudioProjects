@@ -82,6 +82,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:autofillHints="Picture"
         android:layout_marginTop="60dp"
+        android:background="@drawable/shape2"
         app:layout_constraintTop_toBottomOf="@+id/text" />
 
 

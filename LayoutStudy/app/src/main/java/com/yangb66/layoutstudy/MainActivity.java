@@ -1,5 +1,6 @@
 package com.yangb66.layoutstudy;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,46 +22,73 @@ import android.widget.SeekBar;
 import android.widget.ToggleButton;
 
 import com.tencent.connect.common.Constants;
-import com.tencent.connect.share.QQShare;
-import com.tencent.tauth.IRequestListener;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
-import org.apache.http.conn.ConnectTimeoutException;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
 
-import static android.provider.UserDictionary.Words.APP_ID;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton mImageButton;
-    private MediaPlayer mediaPlayer;
+    public MediaPlayer mediaPlayer;
     private ToggleButton musicChange;
     private SeekBar voiceChange;
+    private Button button;
     private int volume = 0;
-    String ttf1 ="sunsatsen.ttf";
+    String[] ttf1 = {"sunsatsen.ttf","fanti.ttf"};
     int mp3 = R.raw.yinyu;
+    Activity mActivity;
+    IUiListener mUiListener;
 
     private static final int PHOTO_GRAPH = 2;// 拍照
     private static final int PHOTO_ZOOM = 3; // 缩放
     private static final int PHOTO_RESULT = 4;// 结果
     private static final String IMAGE_UNSPECIFIED = "image/*";
+    private int fontType=0, totalFontType=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mActivity=MainActivity.this;
+        mUiListener=new IUiListener() {
+            @Override
+            public void onComplete(Object o) {
+
+            }
+
+            @Override
+            public void onError(UiError uiError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        };
 
         //设置button字体
-        Button button=(Button)findViewById(R.id.setMusic);
-        button.setTypeface(Typeface.createFromAsset(this.getAssets(),ttf1));
+        button=(Button)findViewById(R.id.setMusic);
+
+        button.setTypeface(Typeface.createFromAsset(this.getAssets(),ttf1[fontType]));
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                fontType=(fontType+1)%totalFontType;
+                button.setTypeface(Typeface.createFromAsset(MainActivity.this.getAssets(),ttf1[fontType]));
+            }
+        });
+        button.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent=new Intent(MainActivity.this, herosinfo.class);
+                startActivity(intent);
+                return false;
+            }
+        });
 
         //启动音乐服务
         mediaPlayer = MediaPlayer.create(MainActivity.this, mp3);
@@ -85,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        Intent intent=new Intent(MainActivity.this, MusicServer.class);
+        startService(intent);
 
         //设置音量
         voiceChange=(SeekBar) findViewById(R.id.voiceChange);
@@ -156,6 +186,88 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+        //Tencent
+//        button.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                makeText(MainActivity.this, "click", Toast.LENGTH_SHORT).show();
+//
+//                Tencent tencent = Tencent.createInstance("tencent1106545218", getApplicationContext());
+//                Bundle params = new Bundle();
+//                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, "http://connect.qq.com/");
+//                params.putString(QzoneShare.SHARE_TO_QQ_APP_NAME, "我是应用程序名称");
+//                params.putString("title", "我是标题");
+//                params.putString("summary", "我是简介");
+//
+//                ArrayList<String> images = new ArrayList<String>();
+//                images.add("@mipmap/jietu");
+//                //params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, images);
+//                tencent.shareToQzone(mActivity, params, new IUiListener() {
+//                    @Override
+//                    public void onComplete(Object o) {
+//                        Toast toast = Toast.makeText(MainActivity.this, "complete", Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.TOP | Gravity.LEFT, 0, 0);
+//                        toast.show();
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(UiError uiError) {
+//                        Toast toast = Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.CENTER | Gravity.LEFT, 0, 0);
+//                        toast.show();
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//                        Toast toast = Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.BOTTOM | Gravity.LEFT, 0, 0);
+//                        toast.show();
+//                    }
+//                });
+//            }
+//        });
+//        button.setOnLongClickListener(new View.OnLongClickListener(){
+//            @Override
+//            public boolean onLongClick(View v) {
+//                makeText(MainActivity.this, "long click", Toast.LENGTH_SHORT).show();
+//
+//                Tencent tencent = Tencent.createInstance("tencent1106545218", getApplicationContext());
+//                Bundle params = new Bundle();
+//                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, "http://connect.qq.com/");
+//                params.putString(QzoneShare.SHARE_TO_QQ_APP_NAME, "我是应用程序名称");
+//                params.putString("title", "我是标题");
+//                params.putString("summary", "我是简介");
+//
+//                params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+//                //params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, "@mipmap/jietu");
+//                tencent.shareToQQ(mActivity, params, new IUiListener(){
+//                    @Override
+//                    public void onComplete(Object o) {
+//                        Toast toast = Toast.makeText(MainActivity.this, "complete", Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.TOP | Gravity.LEFT, 0, 0);
+//                        toast.show();
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(UiError uiError) {
+//                        Toast toast = Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.CENTER | Gravity.LEFT, 0, 0);
+//                        toast.show();
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//                        Toast toast = Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.BOTTOM | Gravity.LEFT, 0, 0);
+//                        toast.show();
+//                    }
+//                });
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -191,14 +303,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        Tencent.onActivityResultData(requestCode, resultCode, data, mUiListener);
+        if(requestCode == Constants.REQUEST_QQ_SHARE || requestCode == Constants.REQUEST_QZONE_SHARE){
+            if (resultCode == Constants.ACTIVITY_OK) {
+                Tencent.handleResultData(data, mUiListener);
+            }
+        }
     }
 
 
     @Override
     protected void onStop() {
         super.onStop();
-        mediaPlayer.setLooping(false);
-        mediaPlayer.stop();
+//        mediaPlayer.setLooping(false);
+//        mediaPlayer.stop();
+        Intent intent=new Intent(MainActivity.this, MusicServer.class);
+        stopService(intent);
     }
 
     //回到窗口，播放
@@ -234,3 +354,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
+//class MyIUiListener implements IUiListener {
+//@Override
+//public void onComplete(Object o) {
+//// 操作成功
+//}
+//@Override
+//public void onError(UiError uiError) {
+//// 分享异常
+//}
+//@Override
+//public void onCancel() {
+////// 取消分享
+//}
+//}

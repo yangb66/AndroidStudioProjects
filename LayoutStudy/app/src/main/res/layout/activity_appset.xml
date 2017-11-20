@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yangb66.layoutstudy.Appset">
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="192dp" />
+
+    <Button
+        android:id="@+id/setMusic"
+        android:text="设置"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/square100x50"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"/>
+
+    <com.yangb66.layoutstudy.MyTextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="背景音乐"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="60dp" />
+
+
+    <ToggleButton
+        android:id="@+id/musicChange"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="开"
+        android:background="@drawable/button"
+        app:layout_constraintBottom_toBottomOf="@+id/text"
+        app:layout_constraintTop_toTopOf="@+id/text"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="60dp"
+        android:layout_marginEnd="60dp" />
+
+    <com.yangb66.layoutstudy.MyTextView
+        android:id="@+id/voiceValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="音量"
+        app:layout_constraintTop_toBottomOf="@id/musicChange"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="60dp"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp" />
+
+    <SeekBar
+        android:id="@+id/voiceChange"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="180dp"
+        android:max="100"
+        android:min="0"
+        android:progress="20"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/voiceValue"
+        app:layout_constraintLeft_toRightOf="@id/voiceValue"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+</android.support.constraint.ConstraintLayout>

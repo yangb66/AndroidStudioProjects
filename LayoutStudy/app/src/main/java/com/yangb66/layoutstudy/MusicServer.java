@@ -4,8 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.provider.MediaStore;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 
 /**
@@ -24,6 +22,7 @@ public class MusicServer extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
         if(mediaPlayer==null){
             mediaPlayer = MediaPlayer.create(this, R.raw.yinyu);
             mediaPlayer.setLooping(true);
@@ -35,5 +34,6 @@ public class MusicServer extends Service {
     public void onDestroy() {
         super.onDestroy();
         mediaPlayer.stop();
+        mediaPlayer.release();
     }
 }
