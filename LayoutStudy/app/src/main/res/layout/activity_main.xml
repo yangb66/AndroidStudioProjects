@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activityID"
+    android:id="@+id/main_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yangb66.layoutstudy.MainActivity">
@@ -25,7 +25,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="20dp"/>
 
-    <com.yangb66.layoutstudy.MyTextView
+    <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:layout_marginRight="60dp"
         android:layout_marginEnd="60dp" />
 
-    <com.yangb66.layoutstudy.MyTextView
+    <TextView
         android:id="@+id/voiceValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

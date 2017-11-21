@@ -5,191 +5,152 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class Appset extends AppCompatActivity {
-    private ToggleButton musicSet;
-    private SeekBar volumeSet;
-    private Button setButton;
-    private Button textTypeChoose;
-    private Button cancelButton;
-    private TextView music, textType, background;
-    private Button backgroundChoose;
-
-    private ConstraintLayout layout;
-
-    int textTypeId=0, textTypeId0;
-    String[] textTypeStr={"中山纪念字体","繁体"};
-    String[] textTypeSrc={"sunsatsen.ttf","fanti.ttf"};
-
-    int backgroundId=0, backgroundId0;
-    String[] backgroundStr={"清新","古风"};
-    String[] backgroundSrc={"clear","info_bg"};
-
-    String musicState="开", musicState0;
-    int volumeValue, volumeValue0, maxVolume;
-
+    //设置变量
+    private ToggleButton musicStateSetButton;  //音乐开关设置按钮
+    private SeekBar volumeSetBar;      //音量设置条
+    private Button setButton;       //设置按钮
+    private Button typefaceChooseButton; //文字选择按钮
+    private Button cancelButton;   //取消按钮
+    private TextView music, typeface, background, musicSrc;   //文字显示
+    private Button backgroundChooseButton;                 //背景设置按钮
+    private ConstraintLayout layout;                   //布局视图
+    private Button musicSrcSetButton; //背景乐设计
+    //全局变量
+    myApp myApp0;
+    //局部设置变量
+    int typefaceId = 0;
+    int backgroundId = 0;
+    boolean musicState = false;
+    int volumeValue = 0;
+    int musicId, musicId2;
     //音量管理器
     AudioManager mAudioManager;
-
-    //广播
-    private static final String SETRECEIVE = "com.example.ex4.SetReceiver";
-    private static final String SETRECEIVEDYNAMIC="com.example.ex4.SetReceiveDynamic";
-
+    int maxVolume;
 
     //部件初始化
-    void widgetInit(){
+    void widgetInit() {
         //音乐开关按钮
-        musicSet=(ToggleButton)findViewById(R.id.musicSet);
-
-        //音量调节bar
-        volumeSet=(SeekBar)findViewById(R.id.volumeSet);
-
-        //设置按钮
-        setButton=(Button)findViewById(R.id.setButton);
-
+        musicStateSetButton = (ToggleButton) findViewById(R.id.musicStateSetButton);
         //字体选择按钮
-        textTypeChoose=(Button)findViewById(R.id.textTypeChoose);
-
+        typefaceChooseButton = (Button) findViewById(R.id.typefaceChooseButton);
+        //背景设置按钮
+        backgroundChooseButton = (Button) findViewById(R.id.backgroundChooseButton);
+        //音量调节bar
+        volumeSetBar = (SeekBar) findViewById(R.id.volumeSetBar);
+        //设置按钮
+        setButton = (Button) findViewById(R.id.setButton);
         //取消按钮
-        cancelButton=(Button)findViewById(R.id.cancelButton);
-
+        cancelButton = (Button) findViewById(R.id.cancelButton);
         //文字信息控件
-        music=(TextView)findViewById(R.id.music);
-        textType=(TextView)findViewById(R.id.textType);
-        background=(TextView)findViewById(R.id.background);
-
-        //背景
-        layout=(ConstraintLayout)findViewById(R.id.appSetLayout);
-        backgroundChoose=(Button)findViewById(R.id.backgroundChoose);
+        music = (TextView) findViewById(R.id.music);
+        typeface = (TextView) findViewById(R.id.typeface);
+        background = (TextView) findViewById(R.id.background);
+        musicSrc=(TextView) findViewById(R.id.musicSrc);
+        //背景乐
+        musicSrcSetButton=(Button)findViewById(R.id.musicSrcSetButton);
+        //背景布局
+        myApp0=(myApp)getApplication();
+        layout = (ConstraintLayout) findViewById(R.id.appSetLayout);
     }
-
-    //部件数据更新
-    void widgetUpdate(){
+    void setWidgetTypeface(String src) {
+        //textView
+        Typeface type=Typeface.createFromAsset(Appset.this.getAssets(), src);
+        music.setTypeface(type);
+        typeface.setTypeface(type);
+        background.setTypeface(type);
+        musicSrc.setTypeface(type);
+        //Button
+        musicStateSetButton.setTypeface(type);
+        setButton.setTypeface(type);
+        cancelButton.setTypeface(type);
+        typefaceChooseButton.setTypeface(type);
+        backgroundChooseButton.setTypeface(type);
+        musicSrcSetButton.setTypeface(type);
+    }
+    //设置时部件数据更新
+    void widgetUpdate() {
         //更新音乐开关按钮文字
-        musicSet.setText(musicState);
-
+        musicStateSetButton.setText(myApp0.getMusicStateStr());
+        //设置音乐
+        musicSrcSetButton.setText(myApp0.getMusicStr());
         //更新音量bar
-        volumeSet.setMax(maxVolume);
-        volumeSet.setProgress(volumeValue);
-
+        volumeSetBar.setMax(maxVolume);
+        volumeSetBar.setProgress(volumeValue);
         //更新字体按钮文字
-        textTypeChoose.setText(textTypeStr[textTypeId]);
-
+        typefaceChooseButton.setText(myApp0.getTypefaceStr());
         //更新文字信息控件字体
-        music.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[textTypeId]));
-        textType.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[textTypeId]));
-        background.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[textTypeId]));
-
+        setWidgetTypeface(myApp0.getTypefaceSrc());
         //背景按钮文字
-        backgroundChoose.setText(backgroundStr[backgroundId]);
+        backgroundChooseButton.setText(myApp0.getBackgroundStr());
         //设置背景
-        layout.setBackground(getDrawable(getResources().getIdentifier(backgroundSrc[backgroundId], "drawable", getPackageName())));
+        layout.setBackground(getDrawable(getResources().getIdentifier(myApp0.getBackgroundSrc(), "drawable", getPackageName())));
+        layout.getBackground().setAlpha(myApp0.alpha);
     }
-
-    void widgetRecover(){
-        //更新音乐开关按钮文字
-        if(musicState != musicState0)
-            musicSet.setText(musicState0);
-
-        //更新音量bar
-        if(volumeValue0 != volumeValue)
-            volumeSet.setProgress(volumeValue0);
-
-        //更新字体按钮文字
-        if(textTypeId0 != textTypeId)
-            textTypeChoose.setText(textTypeStr[textTypeId0]);
-
+    //取消设置时恢复部件设置
+    void widgetRecover() {
+        //恢复音量bar
+        if (volumeValue != myApp0.getVolume())
+            volumeSetBar.setProgress(myApp0.getVolume());
         //更新文字信息控件字体
-        if(textTypeId0 != textTypeId){
-            music.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[textTypeId0]));
-            textType.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[textTypeId0]));
-            background.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[textTypeId0]));
+        if (typefaceId != myApp0.getTypefaceId()) {
+            setWidgetTypeface(myApp0.getTypefaceSrc());
         }
-
+        //更新字体设置按钮文字内容
+        if (typefaceId != myApp0.getTypefaceId())
+            typefaceChooseButton.setText(myApp0.getTypefaceStr());
+        //更新音乐开关按钮文字
+        if (musicState != myApp0.getMusicState())
+            musicStateSetButton.setText(myApp0.getMusicStateStr());
         //背景按钮文字
-        if(backgroundId != backgroundId0)
-            backgroundChoose.setText(backgroundStr[backgroundId0]);
+        if (backgroundId != myApp0.getBackgroundId())
+            backgroundChooseButton.setText(myApp0.getBackgroundStr());
         //设置背景
-        if(backgroundId != backgroundId0)
-            layout.setBackground(getDrawable(getResources().getIdentifier(backgroundSrc[backgroundId0], "drawable", getPackageName())));
-        //恢复音量设置
-        if(musicState != musicState0){
-            if(musicState0=="开"){
-                Intent intent=new Intent(Appset.this, MusicServer.class);
+        if (backgroundId != myApp0.getBackgroundId())
+            layout.setBackground(getDrawable(getResources().getIdentifier(myApp0.getBackgroundSrc(), "drawable", getPackageName())));
+        //恢复音乐开关设置
+        if (musicState != myApp0.getMusicState()) {
+            if (musicState == false) {
+                Intent intent = new Intent(Appset.this, MusicServer.class);
                 stopService(intent);
-            }
-            else{
-                MediaPlayer mediaPlayer = MediaPlayer.create(Appset.this, R.raw.yinyu);
-                mediaPlayer.setLooping(true);
-                mediaPlayer.start();
+            } else {
+                Intent intent = new Intent(Appset.this, MusicServer.class);
+                startService(intent);
             }
         }
-
+        //恢复音乐名称
+        if(musicId != myApp0.getMusicId())
+            musicSrcSetButton.setText(myApp0.getMusicStr());
     }
-
-    //数据更新
-    void dataUpdata(){
-        //音乐开关,musicState0为数据备份，用于取消设置时恢复，设置时更新
-        musicState0=musicState;
-        //音量bar
-        mAudioManager=(AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        //当前音量
-        volumeValue=volumeValue0=mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        //最大音量
-        maxVolume=mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        //字体
-        textTypeId0=textTypeId;
-        //背景
-        backgroundId0=backgroundId;
+    //设置时全局数据更新
+    void setMyApp() {
+        myApp0.setTypefaceId(typefaceId);
+        myApp0.setBackgroundId(backgroundId);
+        myApp0.setMusicState(musicState);
+        myApp0.setVolume(volumeValue);
+        myApp0.setMusicId(musicId);
     }
-
-    //数据恢复
-    void dataRecover(){
-        textTypeId=textTypeId0;
-        musicState=musicState0;
-        volumeValue=volumeValue0;
-        backgroundId=backgroundId0;
+    //恢复时全局数据恢复
+    void getMyApp() {
+        typefaceId = myApp0.getTypefaceId();
+        backgroundId = myApp0.getBackgroundId();
+        musicState = myApp0.getMusicState();
+        volumeValue = myApp0.getVolume();
+        musicId=myApp0.getMusicId();
     }
-
-
-    //初始化
-    void init(){
-        dataUpdata();
-        widgetInit();
-        widgetUpdate();
-    }
-
-    //本地设置
-    void localSet(){
-        //先数据更新
-        dataUpdata();
-        Toast.makeText(Appset.this, "设置成功", Toast.LENGTH_SHORT).show();
-    }
-
-    //广播传递设置
-    void broadcastSet(){
-        /*广播发送需要修改的配置，比如音量，比如背景Id，比如音乐是否开启，比如字体Id*/
-        Intent intent = new Intent(SETRECEIVEDYNAMIC);
-        Bundle bundle = new Bundle();
-        bundle.putInt("textTypeId",textTypeId);
-        intent.putExtras(bundle);
-        sendBroadcast(intent);
-    }
-
-
     //数据库设置
-    void dataBaseSet(){
+    void dataBaseSet() {
         /*设置的时候将应用重启时需要初始化的量存到数据库
         * 先把带0的几个设置复原，再数据恢复*/
 
@@ -199,106 +160,146 @@ public class Appset extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appset);
+        //获得全局变量
+        myApp0 = (myApp) getApplication();
+        //获得音量管理器，获得最大音量和当前音量
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        myApp0.volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        musicId2=myApp0.getMusicId();
 
-        //初始化
-        init();
-
-        //设置按钮
+        //初始化,获得全局变量的设置
+        getMyApp();
+        //获得布局控件
+        widgetInit();
+        //布局控件更新
+        widgetUpdate();
+        //设置按钮click
         setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                localSet();
-                broadcastSet();
-                dataBaseSet();
-                //修改背景色
-                //layout.setBackground(getDrawable(R.drawable.info_bg));
-                layout.setBackground(getDrawable(getResources().getIdentifier(backgroundSrc[backgroundId], "drawable", getPackageName())));
+                setMyApp();
+                musicId2=musicId;
             }
         });
         //取消
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //恢复数据
+                myApp0.setMusicId(musicId2);
                 widgetRecover();
-                dataRecover();
-                //layout.setBackground(getDrawable(R.drawable.clear));
-                Toast.makeText(Appset.this, "取消设置", Toast.LENGTH_LONG).show();
+                getMyApp();
             }
         });
         //设置音乐开关
-        musicSet.setOnClickListener(new View.OnClickListener() {
+        musicStateSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(musicSet.getText().toString().equals("开")){
-                    musicState="关";
-                    musicSet.setText(musicState);
-                    MediaPlayer mediaPlayer = MediaPlayer.create(Appset.this, R.raw.yinyu);
-                    mediaPlayer.setLooping(true);
-                    mediaPlayer.start();
-                }
-                else if(musicSet.getText().toString().equals("关")){
-                    musicState="开";
-                    musicSet.setText(musicState);
-                    MediaPlayer mediaPlayer = MediaPlayer.create(Appset.this, R.raw.yinyu);
-                    mediaPlayer.setLooping(false);
-                    mediaPlayer.stop();
+                if (musicStateSetButton.getText().toString().equals("开")) {
+                    musicState = false;
+                    musicStateSetButton.setText("关");
+                    //开音乐
+                    Intent intent=new Intent(Appset.this, MusicServer.class);
+                    startService(intent);
+                } else if (musicStateSetButton.getText().toString().equals("关")) {
+                    musicState = true;
+                    musicStateSetButton.setText("开");
+                    //关音乐
+                    Intent intent=new Intent(Appset.this, MusicServer.class);
+                    stopService(intent);
                 }
             }
         });
         //设置音量
-        volumeSet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        volumeSetBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                volumeValue=progress;
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,volumeSet.getProgress(),0);
+                volumeValue = progress;
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volumeSetBar.getProgress(), 0);
             }
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
+
         //设置字体
-        textTypeChoose.setOnClickListener(new View.OnClickListener() {
+        typefaceChooseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(Appset.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Appset.this);
                 builder.setTitle("选择字体");
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) { }
-                });
-                builder.setItems(textTypeStr, new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        textTypeId=which;
-                        textTypeChoose.setText(textTypeStr[which]);
-
-                        music.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[which]));
-                        textType.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[which]));
-                        background.setTypeface(Typeface.createFromAsset(Appset.this.getAssets(), textTypeSrc[which]));
+                    }
+                });
+                final String[] items = myApp0.getTypefaceStrArr();
+                final String[] srcs = myApp0.getTypefaceSrcArr();
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        typefaceId = which;
+                        typefaceChooseButton.setText(items[which]);
+                        setWidgetTypeface(srcs[which]);
                     }
                 });
                 builder.create().show();
             }
         });
         //设置背景
-        backgroundChoose.setOnClickListener(new View.OnClickListener() {
+        backgroundChooseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(Appset.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Appset.this);
                 builder.setTitle("选择背景");
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) { }
-                });
-                builder.setItems(backgroundStr, new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        backgroundId=which;
-                        backgroundChoose.setText(backgroundStr[which]);
-                        layout.setBackground(getDrawable(getResources().getIdentifier(backgroundSrc[backgroundId], "drawable", getPackageName())));
                     }
+                });
+                final String[] items = myApp0.getBackgroundStrArr();
+                final String[] srcs = myApp0.getBackgroundSrcArr();
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        backgroundId = which;
+                        backgroundChooseButton.setText(items[which]);
+                        layout.setBackground(getDrawable(getResources().getIdentifier(srcs[which], "drawable", getPackageName())));
+                        layout.getBackground().setAlpha(myApp0.alpha);
+                    }
+                });
+                builder.create().show();}
+        });
+        //设置音乐
+        musicSrcSetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Appset.this);
+                builder.setTitle("选择背景音乐");
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                final String[] items = myApp0.getMusicStrArr();
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                musicId = which;
+                                musicSrcSetButton.setText(items[which]);
+                                if(musicId != myApp0.getMusicId()){
+                                    myApp0.setMusicId(musicId);
+                                    if(musicState == false){
+                                        Intent intent = new Intent(Appset.this, MusicServer.class);
+                                        stopService(intent);
+                                        Intent intent2=new Intent(Appset.this, MusicServer.class);
+                                        startService(intent2);
+                                    }
+                                }
+                            }
                 });
                 builder.create().show();
             }
@@ -306,7 +307,19 @@ public class Appset extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            //mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            volumeValue = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            myApp0.setVolume(volumeValue);
+            volumeSetBar.setProgress(volumeValue);
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy(){
         super.onDestroy();
     }
 }
+

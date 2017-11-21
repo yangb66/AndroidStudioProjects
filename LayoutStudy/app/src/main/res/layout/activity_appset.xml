@@ -29,7 +29,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"/>
     <ToggleButton
-        android:id="@+id/musicSet"
+        android:id="@+id/musicStateSetButton"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:text="开"
@@ -41,20 +41,41 @@
         android:layout_marginEnd="20dp" />
 
     <TextView
-        android:id="@+id/textType"
+        android:id="@+id/musicSrc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="背景乐"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/music"
+        app:layout_constraintLeft_toLeftOf="@+id/music"
+        android:layout_marginTop="40dp"/>
+    <Button
+        android:id="@+id/musicSrcSetButton"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="高山流水"
+        android:background="@drawable/square100x50"
+        app:layout_constraintBottom_toBottomOf="@+id/musicSrc"
+        app:layout_constraintTop_toTopOf="@+id/musicSrc"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp" />
+
+    <TextView
+        android:id="@+id/typeface"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="字体"
-        app:layout_constraintTop_toBottomOf="@+id/music"
+        app:layout_constraintTop_toBottomOf="@+id/musicSrc"
         app:layout_constraintLeft_toLeftOf="@+id/music"
         android:textSize="20sp"
         android:layout_marginTop="40dp"/>
     <Button
-        android:id="@+id/textTypeChoose"
+        android:id="@+id/typefaceChooseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/textType"
-        app:layout_constraintTop_toTopOf="@+id/textType"
+        app:layout_constraintBottom_toBottomOf="@+id/typeface"
+        app:layout_constraintTop_toTopOf="@+id/typeface"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="20dp"
         android:background="@drawable/square100x50"
@@ -65,12 +86,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="背景"
-        app:layout_constraintTop_toBottomOf="@id/textType"
-        app:layout_constraintLeft_toLeftOf="@id/textType"
+        app:layout_constraintTop_toBottomOf="@id/typeface"
+        app:layout_constraintLeft_toLeftOf="@id/typeface"
         android:textSize="20sp"
         android:layout_marginTop="40dp"/>
     <Button
-        android:id="@+id/backgroundChoose"
+        android:id="@+id/backgroundChooseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/background"
@@ -107,7 +128,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/guideline" />
 
     <SeekBar
-        android:id="@+id/volumeSet"
+        android:id="@+id/volumeSetBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:max="100"

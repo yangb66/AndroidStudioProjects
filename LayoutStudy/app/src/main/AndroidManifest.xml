@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".GlobalVariables"
+        android:name=".myApp"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -59,7 +59,10 @@
                 </action>
             </intent-filter>
         </receiver>
-
+        <service android:name=".MusicServer"
+            android:exported="true"
+            android:process=":remote">
+        </service>
     </application>
 
 

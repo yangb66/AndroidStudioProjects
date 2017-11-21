@@ -11,7 +11,8 @@ import android.support.annotation.Nullable;
  */
 
 public class MusicServer extends Service {
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer=null;
+    private myApp myApp0;
 
     @Nullable
     @Override
@@ -22,18 +23,26 @@ public class MusicServer extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        mediaPlayer = new MediaPlayer();
+    }
 
-        if(mediaPlayer==null){
-            mediaPlayer = MediaPlayer.create(this, R.raw.yinyu);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-        }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        myApp0 = (myApp) getApplication();
+        mediaPlayer = MediaPlayer.create(MusicServer.this, getResources().getIdentifier(myApp0.getMusicSrc(), "raw", getPackageName()));
+        mediaPlayer.start();
+        mediaPlayer.setLooping(true);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mediaPlayer.stop();
-        mediaPlayer.release();
+        if(mediaPlayer != null){
+            mediaPlayer.setLooping(false);
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer=null;
+        }
     }
 }
