@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +16,7 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.util.ArraySet;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -35,6 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 //
 //设置全局变量，控制播放歌曲，则可以实现歌曲循环播放
@@ -56,21 +59,49 @@ public class MainActivity extends AppCompatActivity {
     static public boolean hasPermission = false;        //是否有播放权限
     private android.os.Handler mHandler;                   //多线程通信
     
-    private List<Map<String, Object>> data, collectData;
+    private List<Map<String, Object>> data, collectData = new ArrayList<>();
     private ListView listView, collectListView;
     private int maxW = 0;
     List<String> musicPath, musicName, collectMusicPath, collectMusicName;
-    String rootPath;
+    String rootPath, collectMusicString=new String();
+    Set<String> collectNameSet = new ArraySet<>();
     int musicId = 0;
     boolean isPlay = false;
     private int isSetNext = 0;
 
     private int listId = R.id.list;
-    private int pageId=1;       //页面ID
-    private int modeId=0;        //播放模式，0单曲循环，1列表循环，2随机播放
+    private int pageId=0;       //页面ID
+    private int modeId=1;        //播放模式，0单曲循环，1列表循环，2随机播放
     private SimpleAdapter collectSimpleAdapter;
 
+    //需要保存到手机的数据有：播放模式modeId(0-2)，播放列表listId(0-1),音乐musicId,收藏列表String|StringSet，音乐列表String|StringSet。
+    //在onDestroy中保存数据
+    void initData(){
+        SharedPreferences sharedPreferences=getSharedPreferences(PREFERENCE_NAME, PREFERENCE_MODE);
+        musicId = sharedPreferences.getInt("musicId", 0);
+        listId = sharedPreferences.getInt("listId", R.id.list);
+        modeId = sharedPreferences.getInt("modeId", 1);
+        collectNameSet = sharedPreferences.getStringSet("collectNameSet", new ArraySet<String>());
+    }
+    void saveData(){
+        SharedPreferences sharedPreferences=getSharedPreferences(PREFERENCE_NAME, PREFERENCE_MODE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("musicId", musicId);
+        editor.putInt("modeId", modeId);
+        editor.putInt("listId", listId);
+        editor.putString("musicPath", musicPath.get(musicId));
+        editor.putString("musicName", musicName.get(musicId));
+        setCollectMusicString();
+        editor.putStringSet("collectNameSet", collectNameSet);
+        editor.commit();
+    }
+    void setCollectMusicString(){
+        for(int i=0; i<collectMusicName.size(); i++){
+            collectNameSet.add(collectMusicName.get(i));
+        }
+    }
     void init(){
+        initData();
         crtTime = (TextView)findViewById(R.id.crtTime);
         ttlTime = (TextView)findViewById(R.id.ttlTime);
         musicText = (TextView)findViewById(R.id.musicText);
@@ -86,15 +117,14 @@ public class MainActivity extends AppCompatActivity {
         playMode = (Button)findViewById(R.id.playMode);
         page2to1 = (Button)findViewById(R.id.page2to1);
         page3to1 = (Button)findViewById(R.id.page3to1);
-        last.setText("<<");
-        next.setText(">>");
+        last.setText("<|<|");
+        next.setText("|>|>");
         play.setText("|>");
         quit.setText("->");
         stop.setText("o");
         catalog.setText("=");
         collect.setText("C");
         addCollect.setText("+");
-        playMode.setText("M1");
         page2to1.setText("<-");
         page3to1.setText("<-");
         collectMusicName = new ArrayList<>();
@@ -114,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         maxW = displayMetrics.widthPixels;
         page1.setMaxWidth(maxW);
         page2.setMaxWidth(maxW);
+        page3.setMaxWidth(maxW);
         pageSet.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -136,13 +167,13 @@ public class MainActivity extends AppCompatActivity {
                 musicId = position;
                 listId = R.id.list;
                 changeMusic(musicId);
-                setPlay();
+                if(isPlay)setPlay();
             }
         });
-        musicText.setText(musicName.get(musicId));  //设置音乐列表
+        musicText.setText(musicName.get(musicId));  //设置音乐歌名
+        playMode.setText("M"+String.valueOf(modeId+1));
 
         //设置收藏列表
-        collectData = new ArrayList<>();
         collectSimpleAdapter = new SimpleAdapter(getApplication(), collectData, R.layout.collectitemlayout,
                 new String[]{"name", "info"}, new int[]{R.id.name, R.id.info});
         collectListView.setAdapter(collectSimpleAdapter);
@@ -152,7 +183,15 @@ public class MainActivity extends AppCompatActivity {
                 musicId = position;
                 listId = R.id.collectlist;
                 changeMusic(musicId);
-                setPlay();
+                if(isPlay)setPlay();
+            }
+        });
+        collectListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                collectData.remove(position);
+                collectSimpleAdapter.notifyDataSetChanged();
+                return false;
             }
         });
     }
@@ -316,6 +355,11 @@ public class MainActivity extends AppCompatActivity {
                 tmp.put("name", listFile[i].getName());
                 tmp.put("info", listFile[i].getPath());
                 data.add(tmp);
+                if(collectNameSet.contains(listFile[i].getName())){ ///收藏名单
+                    collectData.add(tmp);
+                    collectMusicName.add(listFile[i].getName());
+                    collectMusicPath.add(listFile[i].getPath());
+                }
             }
         }
         file = new File(rootPath + "/kgmusic/download");
@@ -328,6 +372,11 @@ public class MainActivity extends AppCompatActivity {
                 tmp.put("name", listFile[i].getName());
                 tmp.put("info", listFile[i].getPath());
                 data.add(tmp);
+                if(collectNameSet.contains(listFile[i].getName())){ ///收藏名单
+                    collectData.add(tmp);
+                    collectMusicName.add(listFile[i].getName());
+                    collectMusicPath.add(listFile[i].getPath());
+                }
             }
         }
     }
@@ -365,6 +414,7 @@ public class MainActivity extends AppCompatActivity {
     //设置退出程序
     void setQuit(){
         try {
+            saveData();
             int code = 103;
             Parcel data = Parcel.obtain();
             Parcel reply = Parcel.obtain();
@@ -471,7 +521,7 @@ public class MainActivity extends AppCompatActivity {
             mBinder.transact(code, data, reply, 0);
             time = reply.createIntArray();              //create类函数可以获得Parcel的信息
             //reply.readIntArray(time);                 //读不到
-            musicText.setText(reply.readString());      //设置歌名
+            musicText.setText(reply.readString());      //更新歌名
             timeBar.setMax(time[1]);                             //设置进度条
             timeBar.setProgress(time[0]);
             //if(time[0] <= time[1])
@@ -558,5 +608,14 @@ public class MainActivity extends AppCompatActivity {
         String s2 = String.valueOf(a%60);
         if(s2.length()<2) s2 = "0"+s2;
         return s1+":"+s2;
+    }
+
+    public static final int PREFERENCE_MODE = MODE_PRIVATE;
+    public static final String PREFERENCE_NAME = "SafeSettingMediaStudy";
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveData();
     }
 }

@@ -2,12 +2,16 @@ package com.yangb66.mediastudy;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
 import android.os.RemoteException;
 import android.util.Log;
+
+import static com.yangb66.mediastudy.MainActivity.PREFERENCE_MODE;
+import static com.yangb66.mediastudy.MainActivity.PREFERENCE_NAME;
 
 public class MusicService extends Service {
     private MediaPlayer mp = new MediaPlayer();
@@ -17,8 +21,11 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         try {
+            SharedPreferences sharedPreferences=getSharedPreferences(PREFERENCE_NAME, PREFERENCE_MODE);
             path = new String("storage/emulated/0/netease/cloudmusic/Music/逃跑计划 - 夜空中最亮的星.mp3");
+            path = sharedPreferences.getString("musicPath", path);
             name = new String("逃跑计划 - 夜空中最亮的星.mp3");
+            name = sharedPreferences.getString("musicName", name);
             mp.setDataSource(path);
             mp.prepare();
             Log.i("servicecreate", "success");
