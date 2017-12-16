@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- centerHorizontal在屏幕水平居中
+    gravity文字在View上下居中
+    textAlignment文字左右居中
+    -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="#0000ff"
+        android:text="File Editor"
+        android:id="@+id/text1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:focusableInTouchMode="true"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/fileName"
+        android:hint="File Name"
+        android:layout_below="@id/text1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="top"/>
+
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/delete"
+        android:text="DELETE"
+        android:textColor="#FF0000"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/saves"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/delete"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            app:layout_widthPercent="32%"
+            android:layout_height="wrap_content"
+            android:id="@+id/save"
+            android:text="SAVE"
+            android:layout_alignParentLeft="true"
+            />
+
+        <Button
+            app:layout_widthPercent="32%"
+            android:layout_height="wrap_content"
+            android:id="@+id/load"
+            android:text="LOAD"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            app:layout_widthPercent="32%"
+            android:layout_height="wrap_content"
+            android:id="@+id/clear"
+            android:text="CLEAR"
+            android:layout_alignParentRight="true"
+            />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:hint="File Content Here"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/fileContent"
+        android:layout_below="@id/fileName"
+        android:layout_above="@id/saves"
+        android:gravity="top"/>
+
+</android.support.percent.PercentRelativeLayout>

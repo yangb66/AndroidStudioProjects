@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Y-Studio</string>
+    <!--main activity function list key-->
+    <string name="funcName">funcName</string>
+    <string name="funcDes">funcDes</string>
+
+    <!--main activity function name-->
+    <string name="WebView">WebView</string>
+    <string name="DynamicButton">Dynamic Button</string>
+    <string name="Animation">Animation</string>
+
+    <!--main activity function description-->
+    <string name="WebViewDes">Learning WebView</string>
+    <string name="DynamicButtonDes">Learning to add button dynamically</string>
+    <string name="AnimationDes">Leaning to use animation</string>
+
+</resources>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/title"
+        android:textColor="#ff000000"
+        android:text="恭喜发财"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="姓名: "
+        android:id="@+id/name1"
+        android:layout_below="@id/title"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:focusable="false"
+        android:text="张三"
+        android:layout_toRightOf="@id/name1"
+        android:layout_alignBottom="@id/name1"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="生日: "
+        android:id="@+id/birthday1"
+        android:layout_below="@id/name1"
+        android:layout_alignLeft="@id/name1"
+        android:layout_marginTop="30dp"/>
+    <EditText
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/birthday"
+        android:textColor="#ff000000"
+        android:layout_marginRight="20dp"
+        android:inputType="datetime"
+        android:layout_alignBaseline="@+id/birthday1"
+        android:layout_alignBottom="@+id/birthday1"
+        android:layout_toEndOf="@+id/birthday1"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="礼物: "
+        android:id="@+id/gift1"
+        android:layout_below="@id/birthday1"
+        android:layout_alignLeft="@id/birthday1"
+        android:layout_marginTop="30dp" />
+    <EditText
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/gift"
+        android:textColor="#ff000000"
+        android:layout_marginRight="20dp"
+        android:layout_alignBaseline="@+id/gift1"
+        android:layout_alignBottom="@+id/gift1"
+        android:layout_toEndOf="@+id/gift1"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="电话: "
+        android:id="@+id/phone1"
+        android:textColor="#ff00ff00"
+        android:layout_below="@id/gift1"
+        android:layout_alignLeft="@id/gift1"
+        android:layout_marginTop="30dp"/>
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/phone"
+        android:text="无"
+        android:textColor="#ff00ff00"
+        android:layout_toRightOf="@id/phone1"
+        android:layout_alignBottom="@id/phone1"/>
+
+</RelativeLayout>

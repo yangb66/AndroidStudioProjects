@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yangb66.y_studio">
+
+    <!-- 用于获取网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="FuncList">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:label="@string/WebView"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!-- adjustPan将设置软键盘不挤压屏幕, 设置没有actionbar -->
+        <activity
+            android:name=".activity.DynamicButtonActivity"
+            android:label="@string/DynamicButton"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".activity.AnimationActivity"></activity>
+    </application>
+
+</manifest>

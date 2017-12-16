@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="D:\programs\Android\AndroidStudioProjects\AnimationsDemo1\app\libs\android-support-v13.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.3"
+        sha1="0a0cf96dabecd7b65a3638a229e7bdb42e6b0a77">
+        <dex dex="D:\programs\Android\AndroidStudioProjects\AnimationsDemo1\app\build\intermediates\pre-dexed\debug\android-support-v13_cec1b5910fb26bdcc2173535c539d9eb9f83e913.jar" />
+    </item>
+
+</items>

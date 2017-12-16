@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/url_hint_item_layout">
+
+    <Button
+        android:id="@+id/remove"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/remove"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/url_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/remove"
+        android:textSize="18sp"
+        android:layout_alignBottom="@id/remove"
+        android:layout_marginLeft="10dp"
+        android:paddingRight="30dp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
+
+
+</RelativeLayout>
